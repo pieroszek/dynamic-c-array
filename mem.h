@@ -1,3 +1,6 @@
+//header for mem.c
+
+#ifndef MEM_H
 #define MEM_H
 
 #include <stddef.h> //something for the user idk im sleepy
@@ -5,7 +8,7 @@
 
 
 #define DECLR_ARR(T) \
-	typedef struct { T * data; size_t count; size_t capacity; } dyna_arr_##T; \ 
+	typedef struct { T * data; size_t count; size_t capacity; } dyna_arr_##T; \
 	static inline dyna_arr_##T * dyna_arr_##T##_create() { \
 		dyna_arr_##T * arr = malloc(sizeof(dyna_arr_##T)); \
 		arr->count = -1; \
@@ -37,7 +40,13 @@
 			} \
 		} \
 		return -1;\
-	}
+	} \
+	static inline size_t dyna_arr_get_capacity(dyna_arr_##T * arr) { \
+		return arr->capacity; \
+	} \
+	static inline size_t dyna_arr_get_length(dyna_arr_##T * arr) { \
+		return arr->count; \
+	} 
 
 	
 
