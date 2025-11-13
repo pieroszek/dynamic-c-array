@@ -43,7 +43,7 @@
 				return i; \
 			} \
 		} \
-		return -1;\
+		return arr->count + 1;\
 	} \
 	static inline size_t dyna_arr_get_capacity(dyna_arr_##T * arr) { \
 		return arr->capacity; \
@@ -64,7 +64,7 @@
 	} \
 	static inline void dyna_arr_##T##_set(dyna_arr_##T * arr, T value) { \
 		if( arr->count < 0 ) { return; } \
-		if( arr->capacity < value ) { dyna_arr_resize(arr); } \
+		if( arr->count >= arr->capacity) { dyna_arr_resize(arr); } \
 		for ( size_t i = 0; i <= arr->count; i++) { \
 			arr->data[i] = value; \
 		} \
