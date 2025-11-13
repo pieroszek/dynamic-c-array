@@ -32,6 +32,10 @@
 	static inline T dyna_arr_##T##_get(dyna_arr_##T * arr, size_t index) { \
 		return arr->data[index]; \
 	} \
+	static inline void dyna_arr_resize(dyna_arr_##T * arr) { \
+		arr->capacity *= 2; \
+		arr->data = realloc(arr->data, sizeof(T) * arr->capacity); \
+	} \
 	static inline size_t dyna_arr_##T##_find(dyna_arr_##T * arr, T value) { \
 		if( arr->count < 0 ) { return -1; } \
 		for(size_t i = 0; i <= arr->count; i++) { \
@@ -46,6 +50,24 @@
 	} \
 	static inline size_t dyna_arr_get_length(dyna_arr_##T * arr) { \
 		return arr->count; \
+	} \
+	static inline void dyna_arr_##T##_remove(dyna_arr_##T * arr, size_t index) { \
+		if( arr->count < 0 ) { return; } \
+		for( size_t i = index; i <= arr->count; i++){ \
+			if( i + 1 <= arr->count ) { \
+				arr->data[i] = arr->data[i + 1]; \
+			} \
+			else { \
+				arr->data[i] = 0x0; \
+			} \
+		} \
+	} \
+	static inline void dyna_arr_##T##_set(dyna_arr_##T * arr, T value) { \
+		if( arr->count < 0 ) { return; } \
+		if( arr->capacity < value ) { dyna_arr_resize(arr); } \
+		for ( size_t i = 0; i <= arr->count; i++) { \
+			arr->data[i] = value; \
+		} \
 	} 
 
 	
