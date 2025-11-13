@@ -11,7 +11,7 @@
 	typedef struct { T * data; size_t count; size_t capacity; } dyna_arr_##T; \
 	static inline dyna_arr_##T * dyna_arr_##T##_create() { \
 		dyna_arr_##T * arr = malloc(sizeof(dyna_arr_##T)); \
-		arr->count = -1; \
+		arr->count = 0; \
 		arr->capacity = 16; \
 		arr->data = malloc(sizeof(T) * 16); \
 		return arr; \
@@ -21,8 +21,8 @@
 			arr->capacity *= 2; \
 			arr->data = realloc(arr->data, sizeof(T) * arr->capacity); \
 		} \
-		arr->count += 1; \
 		arr->data[arr->count] = value; \
+		arr->count += 1; \
 		return arr; \
 	}\
 	static inline void dyna_arr_##T##_destroy(dyna_arr_##T * arr) { \
@@ -54,7 +54,7 @@
 	static inline void dyna_arr_##T##_remove(dyna_arr_##T * arr, size_t index) { \
 		if( arr->count < 0 ) { return; } \
 		for( size_t i = index; i <= arr->count; i++){ \
-			if( i + 1 <= arr->count ) { \
+			if( i + 1 < arr->count ) { \
 				arr->data[i] = arr->data[i + 1]; \
 			} \
 			else { \
@@ -74,7 +74,7 @@
 
 
 DECLR_ARR(int);
-//add a DECL_ARR(type) here and a IMPL_ARR(type) in the .c to support a diffrent type
+//add a DECL_ARR(type) here and to support a diffrent type
 
 
 #endif
